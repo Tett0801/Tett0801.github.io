@@ -90,9 +90,13 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           key={link.name}
           icon={link.icon}
           onClick={
-            link.name === 'Trending'
+            link.name === 'Home'
+              ? () => router.push('/')
+            : link.name === 'Trending'
               ? () => router.push('/trending')
-              : undefined
+            : link.name === 'Explore'
+              ? () => router.push('/explore')
+            : undefined
           }
         >
           {link.name}
