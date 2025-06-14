@@ -1,103 +1,187 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import Head from 'next/head'
+import Header from './header'
+import {
+  Box,
+  Heading,
+  Container,
+  Text,
+  Stack,
+  Tag,
+  SimpleGrid,
+  List,
+  ListItem,
+  ListIcon,
+  Divider,
+  Flex,
+  Icon,
+  Avatar,
+  IconButton,
+  useColorMode,
+  useColorModeValue,
+} from '@chakra-ui/react'
+import { FiCheckCircle, FiBriefcase, FiAward, FiUser, FiCpu, FiBookOpen, FiMoon, FiSun } from 'react-icons/fi'
+import { useState } from 'react'
+
+export default function ProfilePage() {
+  const { colorMode, toggleColorMode } = useColorMode()
+  const [lang, setLang] = useState<'ja' | 'en'>('ja')
+  // カラーモードごとの色
+  const sectionBg = useColorModeValue('white', 'gray.800')
+  const mainBg = useColorModeValue('blue.50', 'gray.900')
+  const headingColor = useColorModeValue('blue.600', 'blue.300')
+  const accentColor = useColorModeValue('blue.400', 'blue.200')
+  const iconColor = useColorModeValue('blue.500', 'blue.200')
+  const timelineColor = useColorModeValue('blue.100', 'blue.700')
+  const listIconColor = useColorModeValue('blue.400', 'blue.200')
+
+  // テキスト定義
+  const texts = {
+    ja: {
+      intro: "はじめまして。東京都在住のソフトウェアエンジニアです。Webアプリケーション開発を中心に、フロントエンド・バックエンド問わず幅広く経験があります。新しい技術やチーム開発が大好きです。",
+      introTitle: "自己紹介",
+      skillsTitle: "スキル",
+      certTitle: "保有資格",
+      careerTitle: "経歴",
+      skills: ["TypeScript", "React", "Next.js", "Node.js", "Python", "AWS"],
+      certs: [
+        "応用情報技術者試験",
+        "AWS Certified Solutions Architect – Associate",
+        "TOEIC 800点"
+      ],
+      careers: [
+        "2022年〜現在: 株式会社サンプルテック ソフトウェアエンジニア",
+        "2020年〜2022年: 株式会社WebWorks フロントエンドエンジニア",
+        "2016年〜2020年: 東京工業大学 情報工学系 卒業"
+      ]
+    },
+    en: {
+      intro: "Hello! I'm a software engineer based in Tokyo, Japan. I have broad experience in both frontend and backend web application development. I love learning new technologies and working in teams.",
+      introTitle: "About Me",
+      skillsTitle: "Skills",
+      certTitle: "Certificates",
+      careerTitle: "Career",
+      skills: ["TypeScript", "React", "Next.js", "Node.js", "Python", "AWS"],
+      certs: [
+        "Applied Information Technology Engineer Examination",
+        "AWS Certified Solutions Architect – Associate",
+        "TOEIC Score: 800"
+      ],
+      careers: [
+        "2022–Present: SampleTech Inc. Software Engineer",
+        "2020–2022: WebWorks Inc. Frontend Engineer",
+        "2016–2020: Tokyo Institute of Technology, Dept. of Computer Science"
+      ]
+    }
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <Header lang={lang} setLang={setLang} />
+      <Box pt="80px" minH="100vh" bg={mainBg}>
+        <Container maxW={'3xl'} p={0} position="relative">
+          {/* 自己紹介 */}
+          <Box
+            mb={12}
+            p={8}
+            borderRadius="xl"
+            boxShadow="lg"
+            bgGradient={useColorModeValue('linear(to-r, blue.100, white)', 'linear(to-r, gray.800, gray.900)')}
+            position="relative"
+            overflow="hidden"
+          >
+            <Flex align="center" mb={4}>
+              <Avatar
+                name="Taro Yamada"
+                src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" // 仮の顔イラスト画像URL
+                size="lg"
+                mr={4}
+              />
+              <Box>
+                <Heading size="lg" color={headingColor} mb={1}>
+                  {texts[lang].introTitle}
+                </Heading>
+                <Box w="40px" h="3px" bg={accentColor} borderRadius="full" mb={2} />
+              </Box>
+            </Flex>
+            <Text fontSize="lg">
+              {texts[lang].intro}
+            </Text>
+          </Box>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+          <Divider my={8} />
+
+          {/* スキル */}
+          <Box mb={12} p={8} borderRadius="xl" boxShadow="lg" bg={sectionBg}>
+            <Flex align="center" mb={4}>
+              <Icon as={FiCpu} color={iconColor} boxSize={6} mr={2} />
+              <Heading size="lg" color={headingColor} mb={1}>
+                {texts[lang].skillsTitle}
+              </Heading>
+            </Flex>
+            <Box w="40px" h="3px" bg={accentColor} borderRadius="full" mb={4} />
+            <SimpleGrid columns={[2, 3]} spacing={4}>
+              {texts[lang].skills.map((skill) => (
+                <Tag key={skill} size="lg" colorScheme="blue" borderRadius="full">{skill}</Tag>
+              ))}
+            </SimpleGrid>
+          </Box>
+
+          <Divider my={8} />
+
+          {/* 資格 */}
+          <Box mb={12} p={8} borderRadius="xl" boxShadow="lg" bg={sectionBg}>
+            <Flex align="center" mb={4}>
+              <Icon as={FiAward} color={iconColor} boxSize={6} mr={2} />
+              <Heading size="lg" color={headingColor} mb={1}>
+                {texts[lang].certTitle}
+              </Heading>
+            </Flex>
+            <Box w="40px" h="3px" bg={accentColor} borderRadius="full" mb={4} />
+            <List spacing={3}>
+              {texts[lang].certs.map((cert) => (
+                <ListItem key={cert}>
+                  <ListIcon as={FiAward} color={listIconColor} />
+                  {cert}
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+
+          <Divider my={8} />
+
+          {/* 経歴 */}
+          <Box mb={12} p={8} borderRadius="xl" boxShadow="lg" bg={sectionBg}>
+            <Flex align="center" mb={4}>
+              <Icon as={FiBookOpen} color={iconColor} boxSize={6} mr={2} />
+              <Heading size="lg" color={headingColor} mb={1}>
+                {texts[lang].careerTitle}
+              </Heading>
+            </Flex>
+            <Box w="40px" h="3px" bg={accentColor} borderRadius="full" mb={4} />
+            <Stack spacing={0} position="relative" ml={4}>
+              <Box
+                position="absolute"
+                left={-6}
+                top={6}
+                bottom={2}
+                w="2px"
+                bg={timelineColor}
+                zIndex={0}
+              />
+              <List spacing={6} zIndex={1}>
+                {texts[lang].careers.map((career) => (
+                  <ListItem key={career} position="relative">
+                    <ListIcon as={FiBriefcase} color={listIconColor} />
+                    {career}
+                  </ListItem>
+                ))}
+              </List>
+            </Stack>
+          </Box>
+        </Container>
+      </Box>
+    </>
+  )
 }
