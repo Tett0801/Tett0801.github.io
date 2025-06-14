@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
+import { ChakraProvider } from '@chakra-ui/react'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const notoSansJP400 = Noto_Sans_JP({
+  weight: '400',
+  display: 'swap',
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -23,11 +20,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={notoSansJP400.className}
       >
-        {children}
+        <ChakraProvider>
+          {children}
+        </ChakraProvider>
       </body>
     </html>
   );
