@@ -1,7 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    // ↓ next build を実行する際に Static Export を利用します。
-   output: 'export'
-}
+// next.config.js
+const isGithubPages = process.env.DEPLOY_TARGET === 'GH_PAGES';
 
-module.exports = nextConfig
+module.exports = {
+  basePath: isGithubPages ? '/my_portfolio' : '',
+  assetPrefix: isGithubPages ? '/my_portfolio/' : '',
+  output: 'export', // 静的エクスポート
+};
