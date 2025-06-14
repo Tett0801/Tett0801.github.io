@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { ChakraProvider } from '@chakra-ui/react'
+import theme from '../theme'
 
 const notoSansJP400 = Noto_Sans_JP({
   weight: '400',
@@ -24,7 +25,7 @@ export default function RootLayout({
       <body
         className={notoSansJP400.className}
       >
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           {children}
         </ChakraProvider>
       </body>

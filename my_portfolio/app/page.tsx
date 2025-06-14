@@ -1,102 +1,187 @@
 'use client'
 
 import Head from 'next/head'
-import Sidebar from './sidebar'
+import Header from './header'
 import {
   Box,
   Heading,
   Container,
   Text,
-  Button,
   Stack,
+  Tag,
+  SimpleGrid,
+  List,
+  ListItem,
+  ListIcon,
+  Divider,
+  Flex,
   Icon,
+  Avatar,
+  IconButton,
+  useColorMode,
   useColorModeValue,
-  createIcon,
 } from '@chakra-ui/react'
+import { FiCheckCircle, FiBriefcase, FiAward, FiUser, FiCpu, FiBookOpen, FiMoon, FiSun } from 'react-icons/fi'
+import { useState } from 'react'
 
-export default function CallToActionWithAnnotation() {
+export default function ProfilePage() {
+  const { colorMode, toggleColorMode } = useColorMode()
+  const [lang, setLang] = useState<'ja' | 'en'>('ja')
+  // カラーモードごとの色
+  const sectionBg = useColorModeValue('white', 'gray.800')
+  const mainBg = useColorModeValue('blue.50', 'gray.900')
+  const headingColor = useColorModeValue('blue.600', 'blue.300')
+  const accentColor = useColorModeValue('blue.400', 'blue.200')
+  const iconColor = useColorModeValue('blue.500', 'blue.200')
+  const timelineColor = useColorModeValue('blue.100', 'blue.700')
+  const listIconColor = useColorModeValue('blue.400', 'blue.200')
+
+  // テキスト定義
+  const texts = {
+    ja: {
+      intro: "はじめまして。東京都在住のソフトウェアエンジニアです。Webアプリケーション開発を中心に、フロントエンド・バックエンド問わず幅広く経験があります。新しい技術やチーム開発が大好きです。",
+      introTitle: "自己紹介",
+      skillsTitle: "スキル",
+      certTitle: "保有資格",
+      careerTitle: "経歴",
+      skills: ["TypeScript", "React", "Next.js", "Node.js", "Python", "AWS"],
+      certs: [
+        "応用情報技術者試験",
+        "AWS Certified Solutions Architect – Associate",
+        "TOEIC 800点"
+      ],
+      careers: [
+        "2022年〜現在: 株式会社サンプルテック ソフトウェアエンジニア",
+        "2020年〜2022年: 株式会社WebWorks フロントエンドエンジニア",
+        "2016年〜2020年: 東京工業大学 情報工学系 卒業"
+      ]
+    },
+    en: {
+      intro: "Hello! I'm a software engineer based in Tokyo, Japan. I have broad experience in both frontend and backend web application development. I love learning new technologies and working in teams.",
+      introTitle: "About Me",
+      skillsTitle: "Skills",
+      certTitle: "Certificates",
+      careerTitle: "Career",
+      skills: ["TypeScript", "React", "Next.js", "Node.js", "Python", "AWS"],
+      certs: [
+        "Applied Information Technology Engineer Examination",
+        "AWS Certified Solutions Architect – Associate",
+        "TOEIC Score: 800"
+      ],
+      careers: [
+        "2022–Present: SampleTech Inc. Software Engineer",
+        "2020–2022: WebWorks Inc. Frontend Engineer",
+        "2016–2020: Tokyo Institute of Technology, Dept. of Computer Science"
+      ]
+    }
+  }
+
   return (
-    // レイアウトをflexに変更
-    <Box display="flex" minH="100vh">
-      {/* サイドバー */}
-      <Sidebar />
-      {/* メインコンテンツ */}
-      <Box flex="1" p={0} ml={0}>
-        <Container maxW={'3xl'} p={0}>
-          <Stack
-            as={Box}
-            textAlign={'center'}
-            spacing={{ base: 8, md: 14 }}
-            py={{ base: 20, md: 36 }}>
-            <Heading
-              fontWeight={600}
-              fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
-              lineHeight={'110%'}>
-              Make money from <br />
-              <Text as={'span'} color={'green.400'}>
-                your audience
-              </Text>
-            </Heading>
-            <Text color={'gray.500'}>
-              Monetize your content by charging your most loyal readers and reward them
-              loyalty points. Give back to your loyal readers by granting them access to
-              your pre-releases and sneak-peaks.
-            </Text>
-            <Stack
-              direction={'column'}
-              spacing={3}
-              align={'center'}
-              alignSelf={'center'}
-              position={'relative'}>
-              <Button
-                colorScheme={'green'}
-                bg={'green.400'}
-                rounded={'full'}
-                px={6}
-                _hover={{
-                  bg: 'green.500',
-                }}>
-                Get Started
-              </Button>
-              <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
-                Learn more
-              </Button>
+    <>
+      <Header lang={lang} setLang={setLang} />
+      <Box pt="80px" minH="100vh" bg={mainBg}>
+        <Container maxW={'3xl'} p={0} position="relative">
+          {/* 自己紹介 */}
+          <Box
+            mb={12}
+            p={8}
+            borderRadius="xl"
+            boxShadow="lg"
+            bgGradient={useColorModeValue('linear(to-r, blue.100, white)', 'linear(to-r, gray.800, gray.900)')}
+            position="relative"
+            overflow="hidden"
+          >
+            <Flex align="center" mb={4}>
+              <Avatar
+                name="Taro Yamada"
+                src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" // 仮の顔イラスト画像URL
+                size="lg"
+                mr={4}
+              />
               <Box>
-                <Icon
-                  as={Arrow}
-                  color={useColorModeValue('gray.800', 'gray.300')}
-                  w={71}
-                  position={'absolute'}
-                  right={-71}
-                  top={'10px'}
-                />
-                <Text
-                  fontSize={'lg'}
-                  fontFamily={'Caveat'}
-                  position={'absolute'}
-                  right={'-125px'}
-                  top={'-15px'}
-                  transform={'rotate(10deg)'}>
-                  Starting at $15/mo
-                </Text>
+                <Heading size="lg" color={headingColor} mb={1}>
+                  {texts[lang].introTitle}
+                </Heading>
+                <Box w="40px" h="3px" bg={accentColor} borderRadius="full" mb={2} />
               </Box>
+            </Flex>
+            <Text fontSize="lg">
+              {texts[lang].intro}
+            </Text>
+          </Box>
+
+          <Divider my={8} />
+
+          {/* スキル */}
+          <Box mb={12} p={8} borderRadius="xl" boxShadow="lg" bg={sectionBg}>
+            <Flex align="center" mb={4}>
+              <Icon as={FiCpu} color={iconColor} boxSize={6} mr={2} />
+              <Heading size="lg" color={headingColor} mb={1}>
+                {texts[lang].skillsTitle}
+              </Heading>
+            </Flex>
+            <Box w="40px" h="3px" bg={accentColor} borderRadius="full" mb={4} />
+            <SimpleGrid columns={[2, 3]} spacing={4}>
+              {texts[lang].skills.map((skill) => (
+                <Tag key={skill} size="lg" colorScheme="blue" borderRadius="full">{skill}</Tag>
+              ))}
+            </SimpleGrid>
+          </Box>
+
+          <Divider my={8} />
+
+          {/* 資格 */}
+          <Box mb={12} p={8} borderRadius="xl" boxShadow="lg" bg={sectionBg}>
+            <Flex align="center" mb={4}>
+              <Icon as={FiAward} color={iconColor} boxSize={6} mr={2} />
+              <Heading size="lg" color={headingColor} mb={1}>
+                {texts[lang].certTitle}
+              </Heading>
+            </Flex>
+            <Box w="40px" h="3px" bg={accentColor} borderRadius="full" mb={4} />
+            <List spacing={3}>
+              {texts[lang].certs.map((cert) => (
+                <ListItem key={cert}>
+                  <ListIcon as={FiAward} color={listIconColor} />
+                  {cert}
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+
+          <Divider my={8} />
+
+          {/* 経歴 */}
+          <Box mb={12} p={8} borderRadius="xl" boxShadow="lg" bg={sectionBg}>
+            <Flex align="center" mb={4}>
+              <Icon as={FiBookOpen} color={iconColor} boxSize={6} mr={2} />
+              <Heading size="lg" color={headingColor} mb={1}>
+                {texts[lang].careerTitle}
+              </Heading>
+            </Flex>
+            <Box w="40px" h="3px" bg={accentColor} borderRadius="full" mb={4} />
+            <Stack spacing={0} position="relative" ml={4}>
+              <Box
+                position="absolute"
+                left={-6}
+                top={6}
+                bottom={2}
+                w="2px"
+                bg={timelineColor}
+                zIndex={0}
+              />
+              <List spacing={6} zIndex={1}>
+                {texts[lang].careers.map((career) => (
+                  <ListItem key={career} position="relative">
+                    <ListIcon as={FiBriefcase} color={listIconColor} />
+                    {career}
+                  </ListItem>
+                ))}
+              </List>
             </Stack>
-          </Stack>
+          </Box>
         </Container>
       </Box>
-    </Box>
+    </>
   )
 }
-
-const Arrow = createIcon({
-  displayName: 'Arrow',
-  viewBox: '0 0 72 24',
-  path: (
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M0.600904 7.08166C0.764293 6.8879 1.01492 6.79004 1.26654 6.82177C2.83216 7.01918 5.20326 7.24581 7.54543 7.23964C9.92491 7.23338 12.1351 6.98464 13.4704 6.32142C13.84 6.13785 14.2885 6.28805 14.4722 6.65692C14.6559 7.02578 14.5052 7.47362 14.1356 7.6572C12.4625 8.48822 9.94063 8.72541 7.54852 8.7317C5.67514 8.73663 3.79547 8.5985 2.29921 8.44247C2.80955 9.59638 3.50943 10.6396 4.24665 11.7384C4.39435 11.9585 4.54354 12.1809 4.69301 12.4068C5.79543 14.0733 6.88128 15.8995 7.1179 18.2636C7.15893 18.6735 6.85928 19.0393 6.4486 19.0805C6.03792 19.1217 5.67174 18.8227 5.6307 18.4128C5.43271 16.4346 4.52957 14.868 3.4457 13.2296C3.3058 13.0181 3.16221 12.8046 3.01684 12.5885C2.05899 11.1646 1.02372 9.62564 0.457909 7.78069C0.383671 7.53862 0.437515 7.27541 0.600904 7.08166ZM5.52039 10.2248C5.77662 9.90161 6.24663 9.84687 6.57018 10.1025C16.4834 17.9344 29.9158 22.4064 42.0781 21.4773C54.1988 20.5514 65.0339 14.2748 69.9746 0.584299C70.1145 0.196597 70.5427 -0.0046455 70.931 0.134813C71.3193 0.274276 71.5206 0.70162 71.3807 1.08932C66.2105 15.4159 54.8056 22.0014 42.1913 22.965C29.6185 23.9254 15.8207 19.3142 5.64226 11.2727C5.31871 11.0171 5.26415 10.5479 5.52039 10.2248Z"
-      fill="currentColor"
-    />
-  ),
-})
